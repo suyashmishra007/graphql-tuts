@@ -1,11 +1,23 @@
-import { graphql, buildSchema } from "graphql";
+import express from "express";
+import { graphqlHTTP } from "express-graphql";
 import resolver from "./resolvers.js";
 import courseSchema from "./schema.js";
-graphql({
-  schema: courseSchema,
-  source: "{ hello }",
-  graphiql: true,
-  resolver,
-}).then((response) => {
-  console.log(response);
+
+const PORT = 8000;
+const app = express();
+const root = resolver;
+
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: courseSchema,
+    rootValue: root,
+    graphiql: true,
+  })
+);
+
+app.use("/", (req, res) => {
+  res.send("Hello, world");
 });
+
+app.listen(PORT, () => console.log(`Port: ${PORT}`));
