@@ -1,11 +1,11 @@
 import express from "express";
 import { graphqlHTTP } from "express-graphql";
-import resolver from "./resolvers.js";
+import resolvers from "./resolvers.js";
 import courseSchema from "./schema.js";
 
 const PORT = 8000;
 const app = express();
-const root = resolver;
+const root = resolvers;
 
 app.use(
   "/graphql",

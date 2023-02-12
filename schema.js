@@ -1,9 +1,50 @@
-import { graphql, buildSchema } from "graphql";
+import { buildSchema } from "graphql";
+const courseSchema = buildSchema(`
+    type Course{
+        id: ID
+        courseName: String
+        category: String
+        price: Int
+        language: String
+        email: String
+        stack: Stack
+        teachingAssists : [TeachingAssist]
+    }
 
-var courseSchema = buildSchema(`
-type Query {
-  hello: String
-}
+    type TeachingAssist{
+        firstName: String
+        lastName: String
+        experience: Int
+    }
+
+    enum Stack{
+        WEB
+        MOBILE
+        OTHER
+    }
+    type Query{
+        getCourse(id: ID): Course
+    }
+
+    input CourseInput {
+        id: ID
+        courseName: String!
+        category: String
+        price: Int! 
+        language: String
+        email: String
+        stack: Stack!
+        teachingAssists : [TeachingAssistInput]
+    }
+
+    input TeachingAssistInput{
+        firstName: String!
+        lastName: String
+        experience: Int!
+    }
+
+    type Mutation{
+        createCourse(input: CourseInput): Course
+    }
 `);
-
 export default courseSchema;
